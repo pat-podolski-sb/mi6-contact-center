@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-ts-example
+
+  Sample SAM Template for sam-ts-example
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  CreateVanityNumbersFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambdas/create-vanity-numbers/function
+      Handler: app.lambdaHandler
+      Policies: AmazonDynamoDBFullAccess
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints: 
+        - app.ts
+
+  GetVanityNumbersFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambdas/get-vanity-numbers/function
+      Handler: app.lambdaHandler
+      Policies: AmazonDynamoDBReadOnlyAccess
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Events:
+        ContactCenter:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /vanity-numbers
+            Method: get
+    Metadata: # Manage esbuild properties
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints: 
+        - app.ts  
+
+  DynamoDBTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties: 
+      TableName: phone-vanity-numbers
+      PrimaryKey: 
+        Name: callerPhoneNumber
+        Type: String
+
+Outputs:
+  # Amazon Connect
+  CreateVanityNumbersFunction:
+    Description: "Create Vanity Numbers Lambda Function ARN"
+    Value: !GetAtt CreateVanityNumbersFunction.Arn
+  CreateVanityNumbersFunctionIamRole:
+    Description: "Implicit IAM Role created for Create Vanity Numbers function"
+    Value: !GetAtt CreateVanityNumbersFunctionRole.Arn
+  # Web App:
+  ContactCenterApi:
+    Description: "API Gateway endpoint URL for Prod Web App stage for  Get Vanity Numbers function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/prd/vanity-numbers/"
+  GetVanityNumbersFunction:
+    Description: "Get Vanity Numbers Lambda Function ARN"
+    Value: !GetAtt GetVanityNumbersFunction.Arn
+  GetVanityNumbersFunctionIamRole:
+    Description: "Implicit IAM Role created for Get Vanity Numbers function"
+    Value: !GetAtt GetVanityNumbersFunctionRole.Arn
