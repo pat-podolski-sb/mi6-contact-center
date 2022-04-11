@@ -1,11 +1,11 @@
 {
-  "name": "hello_world",
+  "name": "get-vanity-numbers",
   "version": "1.0.0",
-  "description": "hello world sample for NodeJS",
+  "description": "Lambda that returns vanity numbers for last 5 callers.",
   "main": "app.js",
-  "repository": "https://github.com/awslabs/aws-sam-cli/tree/develop/samcli/local/init/templates/cookiecutter-aws-sam-hello-nodejs",
-  "author": "SAM CLI",
-  "license": "MIT",
+  "repository": "",
+  "author": "Patryk Podolski",
+  "license": "PP",
   "dependencies": {
   },
   "scripts": {

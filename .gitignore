@@ -17,3 +17,10 @@ jboss/server/minimal/work/**/*
 # deployed package files #
 
 *.DEPLOYED
+
+.aws-sam/*
+.aws-sam/
+
+*aws-sam*
+.aws-sam
+**/.aws-sam

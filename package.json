@@ -1,0 +1,8 @@
+{
+  "name": "mi6-contact-center",
+  "version": "1.0.0",
+  "scripts": {
+    "sam:build": "sam build --beta-features",
+    "sam:deploy": "npm run sam:build && sam deploy"
+  }
+}

@@ -12,6 +12,9 @@ export const lambdaHandler = async (
     callback: ConnectContactFlowCallback,
 ): Promise<ConnectContactFlowResult> => {
     let response: ConnectContactFlowResult;
+
+    
+
     try {
         response = {
             statusCode: '200',

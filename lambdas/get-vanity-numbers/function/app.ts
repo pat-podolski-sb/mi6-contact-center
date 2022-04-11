@@ -20,6 +20,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
             },
             body: JSON.stringify({
                 message: 'hello world',
+                vanityNumbers: []
             }),
         };
     } catch (err) {

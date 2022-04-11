@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../../../../../private/var/folders/jp/zljsrt0533qcw7mrm9jx73hm0000gq/T/tmpulas68_4/app.ts"],
-  "sourcesContent": ["import { \n    Context, \n    ConnectContactFlowEvent, \n    ConnectContactFlowResult,\n    ConnectContactFlowCallback\n} from 'aws-lambda';\nimport * as AWS from 'aws-sdk';\n\nexport const lambdaHandler = async (\n    event: ConnectContactFlowEvent,\n    context: Context,\n    callback: ConnectContactFlowCallback,\n): Promise<ConnectContactFlowResult> => {\n    let response: ConnectContactFlowResult;\n    try {\n        response = {\n            statusCode: '200',\n            status: 'Success',\n            body: JSON.stringify({\n                message: 'vanity numbers created',\n                vanityNumbers: []\n            }),\n        };\n    } catch (err) {\n        console.log(err);\n        response = {\n            statusCode: '500',\n            body: JSON.stringify({\n                message: 'We encountered an error',\n                errMessage: err\n            }),\n        };\n    }\n\n    return response;\n};\n"],
-  "mappings": "4ZAAA,wDAQO,GAAM,GAAgB,MACzB,EACA,EACA,IACoC,CACpC,GAAI,GACJ,GAAI,CACA,EAAW,CACP,WAAY,MACZ,OAAQ,UACR,KAAM,KAAK,UAAU,CACjB,QAAS,yBACT,cAAe,CAAC,CACpB,CAAC,CACL,CACJ,OAAS,EAAP,CACE,QAAQ,IAAI,CAAG,EACf,EAAW,CACP,WAAY,MACZ,KAAM,KAAK,UAAU,CACjB,QAAS,0BACT,WAAY,CAChB,CAAC,CACL,CACJ,CAEA,MAAO,EACX",
-  "names": []
-}

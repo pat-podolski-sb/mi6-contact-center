@@ -1,7 +1,7 @@
 {
   "name": "create-vanity-numbers",
   "version": "1.0.0",
-  "description": "Lambda that created 5 vanity numbers for provided phone number",
+  "description": "Lambda that creates 5 vanity numbers for provided phone number",
   "main": "app.js",
   "repository": "",
   "author": "Patryk Podolski",
