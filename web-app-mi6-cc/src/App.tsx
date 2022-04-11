@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
+import architecture from './assets/architecture_diagram.png';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Welcome to MI6 Headquarters!
         </p>
@@ -25,6 +25,8 @@ function App() {
         >
           Get Vanity Numbers
         </button>
+        <br/>
+        <img src={architecture} className="App-logo-2" alt="logooo" />
       </header>
     </div>
   );
