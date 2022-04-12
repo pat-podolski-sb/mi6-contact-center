@@ -1,8 +1,0 @@
-1) Amazon Connect
-2) 2 lambdas ( one to communicate with amazon connect one to communicate with front end app)
-3) api gateway to serve getting vanity vanity numbers
-4) api gateway, lambdas, dynamodb created and updated with AWS SAM "template.yaml"
-5) frontend app created with create-react-app 
-6) frontend CI/CD configured with use of AWSAmplify - whenever there is commit on "main" branch CICD is triggered.
-7) dynamoDB as an DB provider
-8) architecture chart - https://app.diagrams.net/?splash=0&libs=aws4#Hpat-podolski-sb%2Fmi6-contact-center%2Fmain%2Farchitecture_diagram.drawio

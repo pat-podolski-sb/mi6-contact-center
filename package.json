@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "sam:build": "cd deploy sam build --beta-features && cd ..",
-    "sam:deploy": "cd deploy && sam build --beta-features && sam deploy && cd .."
+    "sam:deploy": "cd deploy && sam build --beta-features && sam deploy && cd ..",
+    "web:install": "cd web-app-mi6-cc && npm ci && cd ..",
+    "web:local": "cd web-app-mi6-cc && npm start && cd ..",
+    "web:build": "cd web-app-mi6-cc && npm run build && cd .."
   }
 }
