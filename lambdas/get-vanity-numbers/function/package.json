@@ -7,6 +7,8 @@
   "author": "Patryk Podolski",
   "license": "PP",
   "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1111.0"
   },
   "scripts": {
     "unit": "jest",
