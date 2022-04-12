@@ -37,7 +37,7 @@ npm run sam:deploy
 You will be then guided through some configuration questions and at the end you are going to receive confirmation about created resources.
 In order to import flows you must do it manually in Amazon Connect. Additionally remember to bind your lambda responsible for vanity number creation in Amazon Connect/Contact Flows
 
-###
+### Web Application
 Development:
 Only with first initial run you need to run following command while being in main repo folder:
 ```
