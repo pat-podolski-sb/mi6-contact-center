@@ -1,0 +1,51 @@
+{
+  "modules": [{
+    "id": "e97ecc0f-31e3-4860-9df4-083f0d9d767c",
+    "type": "Resume",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 659,
+        "y": 532
+      }
+    }
+  }, {
+    "id": "22cb13bb-2847-4e4c-b3a3-a82a19f0b3f6",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "e97ecc0f-31e3-4860-9df4-083f0d9d767c"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "You are about to be connected to and Agents support officer.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 298,
+        "y": 443
+      },
+      "useDynamic": false
+    }
+  }],
+  "version": "1",
+  "start": "22cb13bb-2847-4e4c-b3a3-a82a19f0b3f6",
+  "metadata": {
+    "entryPointPosition": {
+      "x": 23,
+      "y": 460
+    },
+    "snapToGrid": false,
+    "name": "MI6 Agent caller whisper",
+    "description": null,
+    "type": "customerWhisper",
+    "status": "published",
+    "hash": "7ccd67a2b6c8c242670e1dc048c779da31e10d38d5266cf1e4ad98ab7146ff68"
+  },
+  "type": "customerWhisper"
+}

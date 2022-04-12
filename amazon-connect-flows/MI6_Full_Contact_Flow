@@ -1,0 +1,687 @@
+{
+  "modules": [{
+    "id": "2fbf1fcc-5baf-4f3c-8bcf-815f1f27d9cd",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "c046b5a8-fbec-46ef-ba6e-422b5ef2ce30"
+    }, {
+      "condition": "Error",
+      "transition": "11273340-48b3-4043-8aa6-c6a51710039c"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "HI! You reached MI6 Head Quarters, please hold the line to be connected with our Agent or Technician support team.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 141,
+        "y": 534
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "fd9f856d-e31e-4b91-8a19-b9bde64ed3fd",
+    "type": "Disconnect",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 2963,
+        "y": 374
+      }
+    }
+  }, {
+    "id": "6eb759bb-1641-4930-b3c7-1c368f769e71",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "f5c87a7f-e903-4113-af4f-bd4df67a06e8"
+    }, {
+      "condition": "Error",
+      "transition": "f5c87a7f-e903-4113-af4f-bd4df67a06e8"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Unfortunately we encountered somme issues while creating vanity numbers for your phone $.CustomerEndpoint.Address. Bye!",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 592,
+        "y": 208
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "eda1e555-5750-4e96-8371-c9465bfffff1",
+    "type": "InvokeExternalResource",
+    "branches": [{
+      "condition": "Success",
+      "transition": "c4e597e6-5324-40b5-af3f-bdf9bb32a3f2"
+    }, {
+      "condition": "Error",
+      "transition": "6eb759bb-1641-4930-b3c7-1c368f769e71"
+    }],
+    "parameters": [{
+      "name": "FunctionArn",
+      "value": "arn:aws:lambda:us-east-1:[userID]:function:mi6CustomerCare-CreateVanityNumbersFunction-[lambdaId]",
+      "namespace": null
+    }, {
+      "name": "TimeLimit",
+      "value": "5"
+    }],
+    "metadata": {
+      "position": {
+        "x": 66,
+        "y": 14
+      },
+      "dynamicMetadata": {},
+      "useDynamic": false
+    },
+    "target": "Lambda"
+  }, {
+    "id": "c046b5a8-fbec-46ef-ba6e-422b5ef2ce30",
+    "type": "GetUserInput",
+    "branches": [{
+      "condition": "Evaluate",
+      "conditionType": "Equals",
+      "conditionValue": "1",
+      "transition": "eda1e555-5750-4e96-8371-c9465bfffff1"
+    }, {
+      "condition": "Evaluate",
+      "conditionType": "Equals",
+      "conditionValue": "2",
+      "transition": "4e4b641c-238a-4ab5-aa12-8e2085240b95"
+    }, {
+      "condition": "Evaluate",
+      "conditionType": "Equals",
+      "conditionValue": "3",
+      "transition": "7c6d9a82-f144-4710-9513-51ae8f2075e8"
+    }, {
+      "condition": "Timeout",
+      "transition": "2cde2e66-a609-4bc5-b730-67347b43ad7d"
+    }, {
+      "condition": "NoMatch",
+      "transition": "4e4b641c-238a-4ab5-aa12-8e2085240b95"
+    }, {
+      "condition": "Error",
+      "transition": "11273340-48b3-4043-8aa6-c6a51710039c"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "If you want to create vanity number suggestions press one. If you are double O agent please press two for agents support. If you are Technician seeking for and advice please press three.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }, {
+      "name": "Timeout",
+      "value": "5"
+    }, {
+      "name": "MaxDigits",
+      "value": "1"
+    }],
+    "metadata": {
+      "position": {
+        "x": 365,
+        "y": 389
+      },
+      "conditionMetadata": [{
+        "id": "886e2ed0-d537-41e4-8edd-5c09ec5f92de",
+        "value": "1"
+      }, {
+        "id": "a4568c35-25e1-4d27-8fc7-27af36832e38",
+        "value": "2"
+      }, {
+        "id": "77043891-e62d-4686-a42b-0c8582432d84",
+        "value": "3"
+      }],
+      "useDynamic": false,
+      "useLexBotDropdown": true,
+      "useDynamicLexBotArn": false,
+      "lexV2BotName": null
+    },
+    "target": "Digits"
+  }, {
+    "id": "7c6d9a82-f144-4710-9513-51ae8f2075e8",
+    "type": "SetQueue",
+    "branches": [{
+      "condition": "Success",
+      "transition": "5458c7c8-4d5c-4ec4-9f44-7ad084091e73"
+    }, {
+      "condition": "Error",
+      "transition": "438d5815-155c-4777-ad4b-f3a3e3e2e067"
+    }],
+    "parameters": [{
+      "name": "Queue",
+      "value": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/queue/07eee9a9-7e0f-4ae0-a5d6-2091f76d7d73",
+      "namespace": null,
+      "resourceName": "Technicians"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1126,
+        "y": 619
+      },
+      "useDynamic": false,
+      "queue": {
+        "id": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/queue/07eee9a9-7e0f-4ae0-a5d6-2091f76d7d73",
+        "text": "Technicians"
+      }
+    }
+  }, {
+    "id": "5458c7c8-4d5c-4ec4-9f44-7ad084091e73",
+    "type": "SetEventHook",
+    "branches": [{
+      "condition": "Success",
+      "transition": "21255927-f65e-4437-a1f7-57966a06e120"
+    }, {
+      "condition": "Error",
+      "transition": "438d5815-155c-4777-ad4b-f3a3e3e2e067"
+    }],
+    "parameters": [{
+      "name": "Type",
+      "value": "CustomerWhisper"
+    }, {
+      "name": "ContactFlowId",
+      "value": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/contact-flow/0a5f39e3-0b5d-4941-be24-bbea72526d38",
+      "resourceName": "MI6 Technicians caller whisper"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1412,
+        "y": 564
+      },
+      "contactFlow": {
+        "id": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/contact-flow/0a5f39e3-0b5d-4941-be24-bbea72526d38",
+        "text": "MI6 Technicians caller whisper"
+      },
+      "customerOrAgent": true,
+      "useDynamic": false
+    }
+  }, {
+    "id": "4e4b641c-238a-4ab5-aa12-8e2085240b95",
+    "type": "SetQueue",
+    "branches": [{
+      "condition": "Success",
+      "transition": "08af1b78-4b46-4339-979e-7feeedb497fd"
+    }, {
+      "condition": "Error",
+      "transition": "438d5815-155c-4777-ad4b-f3a3e3e2e067"
+    }],
+    "parameters": [{
+      "name": "Queue",
+      "value": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/queue/a03d564d-9294-439a-858e-7ea2fefeab2e",
+      "namespace": null,
+      "resourceName": "Agents"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1135,
+        "y": 335
+      },
+      "useDynamic": false,
+      "queue": {
+        "id": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/queue/a03d564d-9294-439a-858e-7ea2fefeab2e",
+        "text": "Agents"
+      }
+    }
+  }, {
+    "id": "08af1b78-4b46-4339-979e-7feeedb497fd",
+    "type": "SetEventHook",
+    "branches": [{
+      "condition": "Success",
+      "transition": "21255927-f65e-4437-a1f7-57966a06e120"
+    }, {
+      "condition": "Error",
+      "transition": "438d5815-155c-4777-ad4b-f3a3e3e2e067"
+    }],
+    "parameters": [{
+      "name": "Type",
+      "value": "CustomerWhisper"
+    }, {
+      "name": "ContactFlowId",
+      "value": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/contact-flow/6c420909-977d-47ee-8cbb-e4b74b3010d6",
+      "resourceName": "MI6 Agent caller whisper"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1425,
+        "y": 354
+      },
+      "contactFlow": {
+        "id": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/contact-flow/6c420909-977d-47ee-8cbb-e4b74b3010d6",
+        "text": "MI6 Agent caller whisper"
+      },
+      "customerOrAgent": true,
+      "useDynamic": false
+    }
+  }, {
+    "id": "f5c87a7f-e903-4113-af4f-bd4df67a06e8",
+    "type": "Disconnect",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 870,
+        "y": 297
+      }
+    }
+  }, {
+    "id": "c4e597e6-5324-40b5-af3f-bdf9bb32a3f2",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "bacbeee4-64d3-48bd-91af-68ef5cdc9be8"
+    }, {
+      "condition": "Error",
+      "transition": "f5c87a7f-e903-4113-af4f-bd4df67a06e8"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "We successfully generated vanity numbers. Vanity numbers for your phone $.CustomerEndpoint.Address are:\nVanity one: $.External.vanity0 ,,,\nVanity two: $.External.vanity1 ,,,\nVanity three: $.External.vanity2 ,,,\nVanity four: $.External.vanity3 ,,,\nVanity five: $.External.vanity4 ,,,",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 408,
+        "y": 12
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "bacbeee4-64d3-48bd-91af-68ef5cdc9be8",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "0005410f-e95e-4f39-a864-2aba6358ef36"
+    }, {
+      "condition": "Error",
+      "transition": "f5c87a7f-e903-4113-af4f-bd4df67a06e8"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Thank you for your time. Please rate your experience with us.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 832,
+        "y": 10
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "5a605a44-2d4f-4f92-8e75-ab389ada3aeb",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "fd9f856d-e31e-4b91-8a19-b9bde64ed3fd"
+    }, {
+      "condition": "Error",
+      "transition": "fd9f856d-e31e-4b91-8a19-b9bde64ed3fd"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "All support agents are busy. You will be disconnected.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 2493,
+        "y": 220
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "17a7f51e-dc48-4bd8-95d1-7ee6a2b0bf04",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "fd9f856d-e31e-4b91-8a19-b9bde64ed3fd"
+    }, {
+      "condition": "Error",
+      "transition": "fd9f856d-e31e-4b91-8a19-b9bde64ed3fd"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Your call encountered a problem. You will be disconnected.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 2496,
+        "y": 420
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "2a5d2bae-6231-407f-a253-9d4019099c1a",
+    "type": "Transfer",
+    "branches": [{
+      "condition": "AtCapacity",
+      "transition": "5a605a44-2d4f-4f92-8e75-ab389ada3aeb"
+    }, {
+      "condition": "Error",
+      "transition": "17a7f51e-dc48-4bd8-95d1-7ee6a2b0bf04"
+    }],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 2244,
+        "y": 303
+      },
+      "useDynamic": false,
+      "queue": null
+    },
+    "target": "Queue"
+  }, {
+    "id": "11273340-48b3-4043-8aa6-c6a51710039c",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "1ba1fdfb-3238-446f-89b5-bea70652b7d9"
+    }, {
+      "condition": "Error",
+      "transition": "1ba1fdfb-3238-446f-89b5-bea70652b7d9"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Your call encountered a problem. You will be disconnected.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 783,
+        "y": 910
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "438d5815-155c-4777-ad4b-f3a3e3e2e067",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "d4531fa9-df5d-40ce-9bb0-c5c81db4ce9d"
+    }, {
+      "condition": "Error",
+      "transition": "d4531fa9-df5d-40ce-9bb0-c5c81db4ce9d"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Just before reaching support agent we encountered an error. You are going to be disconnected.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1665,
+        "y": 807
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "2cde2e66-a609-4bc5-b730-67347b43ad7d",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "1ba1fdfb-3238-446f-89b5-bea70652b7d9"
+    }, {
+      "condition": "Error",
+      "transition": "1ba1fdfb-3238-446f-89b5-bea70652b7d9"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Unfortunately you reached 5 second timeout. You are going to be disconected.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 851,
+        "y": 702
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "1ba1fdfb-3238-446f-89b5-bea70652b7d9",
+    "type": "Disconnect",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 1575,
+        "y": 1139
+      }
+    }
+  }, {
+    "id": "d4531fa9-df5d-40ce-9bb0-c5c81db4ce9d",
+    "type": "Disconnect",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 2688,
+        "y": 856
+      }
+    }
+  }, {
+    "id": "49651f5b-a4af-4ea7-b6fe-a9c78e97ea30",
+    "type": "SetEventHook",
+    "branches": [{
+      "condition": "Success",
+      "transition": "2a5d2bae-6231-407f-a253-9d4019099c1a"
+    }, {
+      "condition": "Error",
+      "transition": "804c70e3-e09d-4107-90f7-ac5ad1b48b23"
+    }],
+    "parameters": [{
+      "name": "Type",
+      "value": "CustomerRemaining"
+    }, {
+      "name": "ContactFlowId",
+      "value": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/contact-flow/6b48a2c7-667d-4d56-8e86-2719e36a2cf6",
+      "resourceName": "MI6 get rating"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1956,
+        "y": 334
+      },
+      "contactFlow": {
+        "id": "arn:aws:connect:us-east-1:085734710430:instance/57f4103c-2b9f-4dd5-bd5f-03e1c2f8d7b1/contact-flow/6b48a2c7-667d-4d56-8e86-2719e36a2cf6",
+        "text": "MI6 get rating"
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "21255927-f65e-4437-a1f7-57966a06e120",
+    "type": "CheckHoursOfOperation",
+    "branches": [{
+      "condition": "True",
+      "transition": "49651f5b-a4af-4ea7-b6fe-a9c78e97ea30"
+    }, {
+      "condition": "False",
+      "transition": "804c70e3-e09d-4107-90f7-ac5ad1b48b23"
+    }, {
+      "condition": "Error",
+      "transition": "438d5815-155c-4777-ad4b-f3a3e3e2e067"
+    }],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 1720,
+        "y": 462
+      }
+    }
+  }, {
+    "id": "804c70e3-e09d-4107-90f7-ac5ad1b48b23",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "d4531fa9-df5d-40ce-9bb0-c5c81db4ce9d"
+    }, {
+      "condition": "Error",
+      "transition": "d4531fa9-df5d-40ce-9bb0-c5c81db4ce9d"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Unfortunately our customer case service is offline currently. We operate between 8AM and 12 PM Central European Time. Please try again later.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 2177,
+        "y": 659
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "10ce5ce8-0968-42fa-8fef-f7555f859102",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "2942f1e0-a760-4b24-9e99-b30c39215ec7"
+    }, {
+      "condition": "Error",
+      "transition": "2942f1e0-a760-4b24-9e99-b30c39215ec7"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "You successfully rated agent. Thank you for your call. Bye!",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1550,
+        "y": 14
+      },
+      "useDynamic": false
+    }
+  }, {
+    "id": "2942f1e0-a760-4b24-9e99-b30c39215ec7",
+    "type": "Disconnect",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 1836,
+        "y": 215
+      }
+    }
+  }, {
+    "id": "0005410f-e95e-4f39-a864-2aba6358ef36",
+    "type": "StoreUserInput",
+    "branches": [{
+      "condition": "Success",
+      "transition": "9b2f56ff-96f5-44b2-b6d7-9ef03f6a9d2d"
+    }, {
+      "condition": "Error",
+      "transition": "2942f1e0-a760-4b24-9e99-b30c39215ec7"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "Please push a button from 1 to 5, with one being poor and  five being great.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }, {
+      "name": "CustomerInputType",
+      "value": "Custom"
+    }, {
+      "name": "Timeout",
+      "value": "19"
+    }, {
+      "name": "MaxDigits",
+      "value": 1
+    }, {
+      "name": "EncryptEntry",
+      "value": false
+    }, {
+      "name": "DisableCancel",
+      "value": false
+    }],
+    "metadata": {
+      "position": {
+        "x": 1070,
+        "y": 11
+      },
+      "useDynamic": false,
+      "useDynamicForEncryptionKeys": true,
+      "useDynamicForTerminatorDigits": false,
+      "countryCodePrefix": "+1"
+    }
+  }, {
+    "id": "9b2f56ff-96f5-44b2-b6d7-9ef03f6a9d2d",
+    "type": "SetAttributes",
+    "branches": [{
+      "condition": "Success",
+      "transition": "10ce5ce8-0968-42fa-8fef-f7555f859102"
+    }, {
+      "condition": "Error",
+      "transition": "2942f1e0-a760-4b24-9e99-b30c39215ec7"
+    }],
+    "parameters": [{
+      "name": "Attribute",
+      "value": "Stored customer input",
+      "key": "VanityCreationRating",
+      "namespace": "System"
+    }],
+    "metadata": {
+      "position": {
+        "x": 1307,
+        "y": 14
+      },
+      "dynamicParams": ["VanityCreationRating"]
+    }
+  }],
+  "version": "1",
+  "start": "2fbf1fcc-5baf-4f3c-8bcf-815f1f27d9cd",
+  "metadata": {
+    "entryPointPosition": {
+      "x": 15,
+      "y": 530
+    },
+    "snapToGrid": false,
+    "name": "MI6 Full Contact Flow",
+    "description": null,
+    "type": "contactFlow",
+    "status": "published",
+    "hash": "5803a470342a9106d8cca96849b94601d096ba00c2acea56a202baa5fed75b52"
+  },
+  "type": "contactFlow"
+}

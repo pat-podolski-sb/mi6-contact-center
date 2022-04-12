@@ -1,5 +1,8 @@
-1. CICD add github actions, config written in .yaml
-2. use environment variables while deploying with SAM and Aplify in .yaml files.
+1. CI/CD add github actions, config written in .yaml
+2. use environment variables while deploying with SAM and Amplify in .yaml files.
 3. Instead directly committing to master branch there should be release branches created and squash&merge policy should be applied.
 4. Dynamo db is not good for getting sorted data, data where table union or merge is required.
-
+5. Better error handling in lambdas. More cases for error codes (400,401,403 etc)
+6. Error boundary in Frontend(react);
+7. More detailed .yaml descriptions regarding API gateway
+8. Manual creation of AIM roles that can be assigned to lambdas so actions can be limited to the most necessary ones.

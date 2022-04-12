@@ -8,6 +8,7 @@ import * as AWS from 'aws-sdk';
 
 const vanityNumberTableName = 'phone-vanity-numbers';
 
+
 const createVanityKeyValuePairs = (initialVanityObject: {[key: string]: string}, vanityNumber: string, index: number) => {
     initialVanityObject['vanity' + index.toString()] = vanityNumber;
     return initialVanityObject;

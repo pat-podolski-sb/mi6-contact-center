@@ -1,0 +1,51 @@
+{
+  "modules": [{
+    "id": "15d9ce16-ba19-4caf-8d3d-b353352af149",
+    "type": "Resume",
+    "branches": [],
+    "parameters": [],
+    "metadata": {
+      "position": {
+        "x": 648,
+        "y": 356
+      }
+    }
+  }, {
+    "id": "5f3d6b9a-ca4d-4366-90ad-aa695ff1788d",
+    "type": "PlayPrompt",
+    "branches": [{
+      "condition": "Success",
+      "transition": "15d9ce16-ba19-4caf-8d3d-b353352af149"
+    }],
+    "parameters": [{
+      "name": "Text",
+      "value": "You are about to be connected to a Technicians support officer.",
+      "namespace": null
+    }, {
+      "name": "TextToSpeechType",
+      "value": "text"
+    }],
+    "metadata": {
+      "position": {
+        "x": 290,
+        "y": 320
+      },
+      "useDynamic": false
+    }
+  }],
+  "version": "1",
+  "start": "5f3d6b9a-ca4d-4366-90ad-aa695ff1788d",
+  "metadata": {
+    "entryPointPosition": {
+      "x": 28,
+      "y": 308
+    },
+    "snapToGrid": false,
+    "name": "MI6 Technicians caller whisper",
+    "description": null,
+    "type": "customerWhisper",
+    "status": "published",
+    "hash": "165690abf3e08df06d889369466827dbd49e51e6e17391c49c7895dda27b3ab0"
+  },
+  "type": "customerWhisper"
+}

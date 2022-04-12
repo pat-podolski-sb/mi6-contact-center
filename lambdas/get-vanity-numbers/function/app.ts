@@ -12,6 +12,15 @@ const vanityNumberTableName = 'phone-vanity-numbers';
  *
  */
 
+ export interface ICaller {
+    callerPhoneNumber: string,
+    vanityNumbers: string[],
+    dateCreated: string,
+    timestampOfDateCreated: number
+}
+
+const sortCallsAsc = (firstCaller: ICaller,secondCaller: ICaller) => firstCaller.timestampOfDateCreated - secondCaller.timestampOfDateCreated;
+
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     let response: APIGatewayProxyResult;
     try {
@@ -22,23 +31,16 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
             .scan({
                 TableName: vanityNumberTableName,
                 Select: "ALL_ATTRIBUTES"
-            }
-            ).promise()
+            })
+            .promise()
             .then((callersData: any) => {
                 console.log('callersData',callersData)
                 return callersData;
             });
-            // , (err: Error, data: any) => {
-            //     if (err) {
-            //         console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-            //     } else {
-            //         console.log('data',data);
-            //         return data.Items;
-            //     }
-            // }
+
         console.log('getAllVanityNumbers',getAllVanityNumbers);
         const lastFiveCallers = getAllVanityNumbers.Items
-            .sort((a:any,b: any) => a.timestampOfDateCreated-b.timestampOfDateCreated)
+            .sort(sortCallsAsc)
             .reverse()
             .splice(0,5);
 
@@ -48,7 +50,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                message: 'hello world',
+                message: 'Last 5 calls successfully obtained!',
                 lastFiveCallers
             }),
         };
@@ -60,7 +62,8 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                message: 'some error happened',
+                message: 'We encountered error while processing your request',
+                errorMessage: err
             }),
         };
     }

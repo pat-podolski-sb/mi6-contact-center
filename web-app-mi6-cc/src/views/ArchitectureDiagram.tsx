@@ -5,7 +5,7 @@ export const ArchitectureDiagram: React.FC = () => {
 
   return (
     <div>
-      <img src={architecture} className="App-logo-2" alt="logooo" />
+      <img id="architecture_diagram" style={{width: '100%'}} src={architecture} className="App-logo-2" alt="logooo" />
     </div>
   )
 }
