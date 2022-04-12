@@ -61,3 +61,4 @@ Whenever you create a commit directly to main (remember to push) or through Pull
 * Monitoring of AWS services would be a good addition. It would be great to monitor e.g. performance, failures, cost increase. This could be easily be connected with slack channel so development or DEVOPS team could react quickly.
 * More detailed .yaml descriptions regarding API gateway and DynamoDB.
 * Manual creation of AIM roles that can be assigned to lambdas so actions can be limited to the most necessary ones.
+* Triggering unit, regression, functional tests before each deployment should be the case.
