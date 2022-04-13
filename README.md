@@ -62,3 +62,10 @@ Whenever you create a commit directly to main (remember to push) or through Pull
 * More detailed .yaml descriptions regarding API gateway and DynamoDB.
 * Manual creation of AIM roles that can be assigned to lambdas so actions can be limited to the most necessary ones.
 * Triggering unit, regression, functional tests before each deployment should be the case.
+* Additionally I could add git releases to be created when CI/CD is done and deployment had effect.
+* I could also add authentication and authorization mechanism in web application. Users could be stored and managed by AWS Congnito. This service could be responsible for authenticating and then with having idToken we could create service generating accessToken & refreshToken.
+* If I would know that we expect high volume of people coming to this app I would recommend creating load balancers between many regions so we can move e.g. 20% of traffic to the other region. 
+* I would create small bounties in bounty portals like "hacker one" to check if "friendly" hackers can find any vulnerabilities or not. 
+* add standard AWS security services AWS Shield (ddos) attacks, Web Application Firewall for exploits.
+* Any access in application should be granted through Security Groups, IAM roles.
+* For sure I would also endure that I create Database, S3, Amazon Connection backups.

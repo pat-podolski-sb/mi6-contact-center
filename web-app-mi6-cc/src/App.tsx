@@ -1,21 +1,17 @@
 import React from 'react';
 import './App.css';
 // Material ui
-import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-
 // Components
 import { ArchitectureDiagram } from './views/ArchitectureDiagram';
 import { RecentUsers } from './views/RecentUsers';
-
+import londonSkyLine from './assets/Original-image-2284x1080.svg';
 
 function Copyright() {
   return (
@@ -30,8 +26,6 @@ function Copyright() {
   );
 }
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const theme = createTheme();
 
 function App() {
@@ -39,50 +33,52 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          {/* <CameraIcon sx={{ mr: 2 }} /> */}
-          <Typography variant="h6" color="inherit" noWrap>
-            MI6 Customer Care Center
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <main>
-        {/* Hero unit */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper',
-            pt: 8,
-            pb: 6,
-          }}
+      <main
+      >
+        <div
+          style={{display: 'flex'}}
         >
-          <Container maxWidth="md">
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
+          <img style={{ objectFit: 'cover', width: '50%', height: '100vh'}} src={londonSkyLine} className="App-logo-2" alt="logooo" />
+            {/* Hero unit */}
+            <Box
+              sx={{
+                bgcolor: 'background.paper',
+                pt: 8,
+                pb: 6,
+              }}
             >
-              Welcome to MI6 Customer Care center!
-            </Typography>
-            <Typography variant="h5" align="center" color="text.secondary" paragraph>
-              You are able to view last 5 calls received by us with vanity number suggestions.
-              Additionally you are able to browse.  
-              <a href="#architecture_diagram" >architecture diagram</a> of our solution.
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-            </Stack>
-          </Container>
-        </Box>
-          <RecentUsers />
-          <br/>
-
+              <div
+                style={{paddingTop: '40vh'}}
+              >
+                <Container maxWidth="md">
+                  <Typography
+                    component="h1"
+                    variant="h2"
+                    align="center"
+                    color="text.primary"
+                    gutterBottom
+                  >
+                    Welcome to MI6 Customer Care center!
+                  </Typography>
+                  <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                    You are able to view&nbsp; <a href='#vanity_numbers'>last 5 calls received</a> &nbsp;by us with vanity number suggestions.
+                    Additionally you are able to browse&nbsp;  
+                    <a href="#architecture_diagram" >architecture diagram</a> of our solution.
+                  </Typography>
+                  <Stack
+                    sx={{ pt: 4 }}
+                    direction="row"
+                    spacing={2}
+                    justifyContent="center"
+                  >
+                  </Stack>
+                </Container>
+              </div>
+            </Box>
+        </div>
+        <br/>
+        <RecentUsers />
+        <br/>
         <ArchitectureDiagram />
       </main>
       {/* Footer */}

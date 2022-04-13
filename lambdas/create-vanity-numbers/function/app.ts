@@ -1,4 +1,5 @@
-import { 
+/* eslint-disable prettier/prettier */
+import {
     Context, 
     ConnectContactFlowEvent, 
     ConnectContactFlowResult,
@@ -8,28 +9,48 @@ import * as AWS from 'aws-sdk';
 
 const vanityNumberTableName = 'phone-vanity-numbers';
 
+const dialNumberSet = [ "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" ];
 
 const createVanityKeyValuePairs = (initialVanityObject: {[key: string]: string}, vanityNumber: string, index: number) => {
     initialVanityObject['vanity' + index.toString()] = vanityNumber;
     return initialVanityObject;
+};
+
+const createVanityNumbers = (
+    numberToBeChanged:  number[], 
+    currentCount: number, 
+    output: string[], 
+    digitsCount: number, 
+    vanityInside: string[]
+): void => {
+
+if (currentCount == digitsCount) {
+    vanityInside.push(output.join(""));
+    return;
 }
 
+for(let i = 0; i < dialNumberSet[numberToBeChanged[currentCount]].length; i++) {
+    output.push(dialNumberSet[numberToBeChanged[currentCount]][i]);
+    createVanityNumbers(numberToBeChanged, currentCount + 1, output, digitsCount, vanityInside);
+
+    output.pop();
+
+    if(numberToBeChanged[currentCount] == 0 || numberToBeChanged[currentCount] == 1) return;
+    }
+}
 
 export const lambdaHandler = async (
     event: ConnectContactFlowEvent,
     context: Context,
     callback: ConnectContactFlowCallback,
-): Promise<ConnectContactFlowResult > => {
-    let response: ConnectContactFlowResult ;
-
+): Promise<ConnectContactFlowResult | undefined> => {
     
     try {
-        const callersNumber = (event as any)['Details']['ContactData']['CustomerEndpoint']['Address']; // getting phone number passed by Connect
+        const callersNumber = event.Details.ContactData.CustomerEndpoint?.Address ;// getting phone number passed by Connect
         
-        console.log(event);
-
+        // Check if user already exists in DB
         const dynamoDBClient = new AWS.DynamoDB.DocumentClient();
-        const vanityNumbersForCurrentCaller: any = await dynamoDBClient
+        const vanityNumbersForCurrentCaller: AWS.DynamoDB.DocumentClient.GetItemOutput = await dynamoDBClient
             .get({
                 TableName: vanityNumberTableName,
                 Key: {
@@ -39,17 +60,30 @@ export const lambdaHandler = async (
             .promise()
             .then((dynamoDbResponse) => dynamoDbResponse);
 
-        console.log(vanityNumbersForCurrentCaller);
-
         if(vanityNumbersForCurrentCaller.Item && vanityNumbersForCurrentCaller.Item.callerPhoneNumber) {
             return vanityNumbersForCurrentCaller.Item.vanityNumbers
                 .reduce(createVanityKeyValuePairs,{} as {[key:string]: string});
         };
 
+        // Calculation of Vanity Numbers
+        const numberOfDigits = 6;
+        const lastSixDigitsOfPhoneNumber = callersNumber!
+            .slice(callersNumber!.length - numberOfDigits,callersNumber!.length)
+            .split("")
+            .map(item => Number(item));
+        
+        const firstPartOfPhoneNumber = callersNumber!
+            .slice(0,callersNumber!.length - numberOfDigits);
+        
+        const vanityInside: string[] = [];
+        createVanityNumbers(lastSixDigitsOfPhoneNumber, 0, [], numberOfDigits ,vanityInside);
+        
 
-        // Function that will create vanity numbers
-        const newVanityNumbers: string[] = [callersNumber,callersNumber,callersNumber,callersNumber,callersNumber];
-
+        const newVanityNumbers: string[] = vanityInside
+            .slice(0,5)
+            .map( vanityPart => firstPartOfPhoneNumber.concat(vanityPart));
+        
+        // Creation of Vanity Numbers in Database
         const currentDate = new Date();
         const createNewVanityPhoneNumbers = await dynamoDBClient
             .put({
@@ -67,31 +101,19 @@ export const lambdaHandler = async (
         console.log('put response:',createNewVanityPhoneNumbers);
         
         const vanityNumbersForAmazonConnect = newVanityNumbers
+            .slice(0,3)
             .reduce(createVanityKeyValuePairs,{} as {[key:string]: string});
 
         callback(null, vanityNumbersForAmazonConnect);
 
-        // response = 'Success';
-        response = {
-            statusCode: '200',
-            status: 'Success',
-            body: JSON.stringify({
-                message: 'vanity numbers created',
-                vanityNumbers: newVanityNumbers,
-                createNewVanityPhoneNumbers,
-                vanityNumbersForAmazonConnect
-            }),
-        };
     } catch (err) {
         console.log(err);
-        response = {
+        return {
             statusCode: '500',
             body: JSON.stringify({
                 message: 'We encountered an error',
-                errMessage: err
+                errMessage: err,
             }),
         };
     }
-
-    return response;
 };

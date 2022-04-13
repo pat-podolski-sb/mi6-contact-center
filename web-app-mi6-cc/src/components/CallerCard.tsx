@@ -12,17 +12,36 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import ContactPhone from '@mui/icons-material/ContactPhone';
 import ContentCopy from '@mui/icons-material/ContentCopy';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 // Types
 import { ICaller } from '../models/globals';
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export const CallerCard: React.FC<ICaller> = ({
   callerPhoneNumber,
-  vanityNumbers,
-  dateCreated,
-  timestampOfDateCreated
+  vanityNumbers
 }) => {
+  const [open, setOpen] = React.useState(false);
 
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const clickCopyToClipboardButton =(valueCopied: string) => (event: React.MouseEvent<HTMLButtonElement>) => {
+    navigator.clipboard.writeText(valueCopied);
+    setOpen(true);
+  }
 
   return (
     
@@ -42,7 +61,7 @@ export const CallerCard: React.FC<ICaller> = ({
             <ListItem
               key={vanityNumber + index}
               secondaryAction={
-                <IconButton edge="end" aria-label="delete">
+                <IconButton edge="end" aria-label="delete" onClick={clickCopyToClipboardButton(vanityNumber)}>
                   <ContentCopy />
                 </IconButton>
               }
@@ -59,6 +78,11 @@ export const CallerCard: React.FC<ICaller> = ({
           ))
           }
         </List>
+        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+            Vanity number copied to clipboard!
+          </Alert>
+        </Snackbar>
         </CardContent>
       </Card>
     </Grid>

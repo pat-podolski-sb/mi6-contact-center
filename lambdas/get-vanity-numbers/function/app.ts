@@ -2,15 +2,6 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as AWS from 'aws-sdk';
 
 const vanityNumberTableName = 'phone-vanity-numbers';
-/**
- *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
- *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
- *
- */
 
  export interface ICaller {
     callerPhoneNumber: string,
@@ -27,7 +18,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
 
         const dynamoDBClient = new AWS.DynamoDB.DocumentClient();
         
-        const getAllVanityNumbers = await dynamoDBClient
+        const getAllVanityNumbers: AWS.DynamoDB.DocumentClient.GetItemOutput = await dynamoDBClient
             .scan({
                 TableName: vanityNumberTableName,
                 Select: "ALL_ATTRIBUTES"
@@ -38,7 +29,6 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
                 return callersData;
             });
 
-        console.log('getAllVanityNumbers',getAllVanityNumbers);
         const lastFiveCallers = getAllVanityNumbers.Items
             .sort(sortCallsAsc)
             .reverse()
