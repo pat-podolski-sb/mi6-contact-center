@@ -35,7 +35,7 @@ export const RecentUsers: React.FC = () => {
   return (
     <div 
       id='vanity_numbers'
-      style={{height: '100vh'}}
+      style={{height: '100vh', padding: '20px'}}
     >
       <Button
         onClick={handleButtonClick}

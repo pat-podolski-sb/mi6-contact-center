@@ -63,7 +63,8 @@ function App() {
                   <Typography variant="h5" align="center" color="text.secondary" paragraph>
                     You are able to view&nbsp; <a href='#vanity_numbers'>last 5 calls received</a> &nbsp;by us with vanity number suggestions.
                     Additionally you are able to browse&nbsp;  
-                    <a href="#architecture_diagram" >architecture diagram</a> of our solution.
+                    <a href="#architecture_diagram" >architecture diagram</a> of our solution. 
+                    You can scroll down or navigate directly through linked words.
                   </Typography>
                   <Stack
                     sx={{ pt: 4 }}
